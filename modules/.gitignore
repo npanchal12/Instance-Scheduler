@@ -1,0 +1,2 @@
+# Ignore these files in the modules directory only
+.terraform.lock.hcl

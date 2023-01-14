@@ -1,0 +1,18 @@
+version: '3'
+
+tasks:
+  default:
+    deps:
+      - task: setup
+    cmds:
+      - brew install tflint tfsec terraform checkov gh pre-commit tfsec terraform-docs markdownlint-cli shellcheck npm
+      - npm i -g markdown-link-check
+      - pre-commit install
+    status:
+      - terraform -v
+      - npm -v
+  setup:
+    cmds:
+      - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    status:
+      - brew -v
