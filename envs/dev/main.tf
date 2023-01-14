@@ -46,7 +46,7 @@ module "rds-aurora" {
 
   vpc_id                 = module.vpc.vpc_id
   db_subnet_group_name   = module.vpc.database_subnet_group_name
-  create_db_subnet_group = false
+  create_db_subnet_group = true
   create_security_group  = true
   allowed_cidr_blocks    = module.vpc.private_subnets_cidr_blocks
 
