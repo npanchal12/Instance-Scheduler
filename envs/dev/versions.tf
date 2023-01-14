@@ -12,7 +12,7 @@ terraform {
     organization = "Jiya"
     workspaces {
       # Fixed name
-      name = "Instance-Scheduler"
+      name = "Instance-Scheduler-dev"
     }
   }
 }
