@@ -31,17 +31,13 @@ module "rds-aurora" {
   engine_version = "5.7"
   instances = {
     1 = {
-      instance_class      = "db.r5.large"
+      instance_class      = "db.t3.small"
       publicly_accessible = true
     }
     2 = {
       identifier     = "mysql-static-1"
-      instance_class = "db.r5.2xlarge"
+      instance_class = "db.t3.small"
     }
-    3 = {
-      identifier     = "mysql-excluded-1"
-      instance_class = "db.r5.xlarge"
-      promotion_tier = 15
     }
   }
 
