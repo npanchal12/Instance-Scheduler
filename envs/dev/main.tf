@@ -151,3 +151,21 @@ module "rds-aurora" {
 resource "random_password" "master" {
   length = 10
 }
+
+module "ec2_jumphost" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "4.2.1"
+
+  name = "ec2-${local.aws_name}"
+
+  ami                         = data.aws_ami.amazon_linux.id
+  instance_type               = "t3.medium"
+  subnet_id                   = data.aws_subnet.private_subnets_az1.id
+  vpc_security_group_ids      = [module.php.ecs_sg_id]
+  associate_public_ip_address = false
+  create_iam_instance_profile = true
+  iam_role_description        = "IAM role for EC2 instance"
+  iam_role_policies = {
+    SSM = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  }
+}
