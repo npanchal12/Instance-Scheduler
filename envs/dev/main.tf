@@ -296,7 +296,7 @@ module "instance_scheduler_role" {
   create_role             = true
   create_instance_profile = false
   role_requires_mfa       = false
-  role_name               = "eventbridge-${var.name}-role"
+  role_name               = "${var.name}-role"
 }
 
 resource "aws_iam_role_policy_attachment" "instance_scheduler_role_attachment" {
