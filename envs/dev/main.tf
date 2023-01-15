@@ -211,31 +211,6 @@ module "vote_service_sg" {
 ################################################################################
 # IAM Policy Documentation
 ################################################################################
-
-module "iam_policy_eventbrdige_scheduler" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
-  version = "5.10.0"
-
-  name        = "event-bridge-scheduler-policy"
-  path        = "/"
-  description = "IAM Policy to execute lambda and run scheduler"
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "lambda:InvokeFunction"
-      ],
-      "Effect": "Allow",
-      "Resource": "*"
-    }
-  ]
-}
-EOF
-}
-
 module "iam_policy_instance_maintenance" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
   version = "5.10.0"
@@ -261,7 +236,8 @@ module "iam_policy_instance_maintenance" {
           "rds:DescribeDBInstances",
           "rds:DescribeDBClusters",
           "rds:StartDBCluster",
-          "rds:StopDBCluster"
+          "rds:StopDBCluster",
+          "lambda:InvokeFunction"
       ],
       "Effect": "Allow",
       "Resource": "*"
@@ -271,28 +247,12 @@ module "iam_policy_instance_maintenance" {
 EOF
 }
 
-module "eventbridge_scheduler_role" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
-  version = "~> 4.13.0"
-
-  trusted_role_services   = ["lambda.amazonaws.com",
-  "scheduler.amazonaws.com"]
-  create_role             = true
-  create_instance_profile = false
-  role_requires_mfa       = false
-  role_name               = "eventbridge-${var.name}-role"
-}
-
-resource "aws_iam_role_policy_attachment" "eventbridge_scheduler_role_attachment" {
-  role       = module.eventbridge_scheduler_role.iam_role_name
-  policy_arn = module.iam_policy_eventbrdige_scheduler.arn
-}
-
 module "instance_scheduler_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
   version = "~> 4.13.0"
 
-  trusted_role_services   = ["lambda.amazonaws.com"]
+  trusted_role_services   = ["lambda.amazonaws.com", 
+  "scheduler.amazonaws.com"]
   create_role             = true
   create_instance_profile = false
   role_requires_mfa       = false
