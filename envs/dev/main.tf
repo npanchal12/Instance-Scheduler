@@ -1,3 +1,6 @@
+################################################################################
+# VPC Resources
+################################################################################
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~>3.19.0"
@@ -5,12 +8,12 @@ module "vpc" {
   name = "my-dev-vpc"
   cidr = "10.0.0.0/16"
 
-  azs             = ["ap-southeast-1a", "ap-southeast-1b"]
-  private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
-  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24"]
+  azs              = ["ap-southeast-1a", "ap-southeast-1b"]
+  private_subnets  = ["10.0.1.0/24", "10.0.2.0/24"]
+  public_subnets   = ["10.0.101.0/24", "10.0.102.0/24"]
   database_subnets = ["10.0.103.0/24", "10.0.104.0/24"]
 
-  enable_nat_gateway = true
+  enable_nat_gateway   = true
   enable_dns_support   = true
   enable_dns_hostnames = true
 
@@ -152,6 +155,9 @@ resource "random_password" "master" {
   length = 10
 }
 
+################################################################################
+# EC2 Instances
+################################################################################
 module "ec2_jumphost" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "4.2.1"
@@ -174,6 +180,10 @@ module "ec2_jumphost" {
   }
 }
 
+################################################################################
+# EC2 Security Group
+################################################################################
+
 module "vote_service_sg" {
   source = "terraform-aws-modules/security-group/aws"
 
@@ -181,8 +191,8 @@ module "vote_service_sg" {
   description = "Security group for user-service with custom ports open within VPC, and PostgreSQL publicly open"
   vpc_id      = module.vpc.vpc_id
 
-  ingress_cidr_blocks      = ["10.10.0.0/16"]
-  ingress_rules            = ["https-443-tcp"]
+  ingress_cidr_blocks = ["10.10.0.0/16"]
+  ingress_rules       = ["https-443-tcp"]
   ingress_with_cidr_blocks = [
     {
       from_port   = 22
@@ -196,4 +206,100 @@ module "vote_service_sg" {
       cidr_blocks = "0.0.0.0/0"
     },
   ]
+}
+
+################################################################################
+# IAM Policy Documentation
+################################################################################
+
+module "iam_policy_eventbrdige_scheduler" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
+  version = "5.10.0"
+
+  name        = "event-bridge-scheduler-policy"
+  path        = "/"
+  description = "IAM Policy to execute lambda and run scheduler"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "lambda:InvokeFunction"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+module "iam_policy_instance_maintenance" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
+  version = "5.10.0"
+
+  name        = "instance-scheduler-policy"
+  path        = "/"
+  description = "IAM Policy to stop and start ec2 and rds resources"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+          "ec2:DescribeInstances",
+          "ec2:DescribeInstances",
+          "ec2:StartInstances",
+          "ec2:DescribeTags",
+          "logs:*",
+          "ec2:DescribeInstanceTypes",
+          "ec2:StopInstances",
+          "ec2:DescribeInstanceStatus",
+          "rds:DescribeDBInstances",
+          "rds:DescribeDBClusters",
+          "rds:StartDBCluster",
+          "rds:StopDBCluster"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+module "eventbridge_scheduler_role" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
+  version = "~> 4.13.0"
+
+  trusted_role_services   = ["lambda.amazonaws.com",
+  "scheduler.amazonaws.com"]
+  create_role             = true
+  create_instance_profile = false
+  role_requires_mfa       = false
+  role_name               = "eventbridge-${var.name}-role"
+}
+
+resource "aws_iam_role_policy_attachment" "eventbridge_scheduler_role_attachment" {
+  role       = module.eventbridge_scheduler_role.iam_role_name
+  policy_arn = module.iam_policy_eventbrdige_scheduler.arn
+}
+
+module "instance_scheduler_role" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
+  version = "~> 4.13.0"
+
+  trusted_role_services   = ["lambda.amazonaws.com"]
+  create_role             = true
+  create_instance_profile = false
+  role_requires_mfa       = false
+  role_name               = "eventbridge-${var.name}-role"
+}
+
+resource "aws_iam_role_policy_attachment" "instance_scheduler_role_attachment" {
+  role       = module.instance_scheduler_role.iam_role_name
+  policy_arn = module.iam_policy_instance_maintenance.arn
 }

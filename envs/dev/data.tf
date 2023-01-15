@@ -7,3 +7,4 @@ data "aws_ami" "amazon_linux" {
     values = ["amzn-ami-hvm-*-x86_64-gp2"]
   }
 }
+

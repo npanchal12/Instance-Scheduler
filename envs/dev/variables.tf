@@ -3,3 +3,9 @@ variable "aws_region" {
   type        = string
   default     = "ap-southeast-1"
 }
+
+variable "name" {
+  description = "Name of the application"
+  type        = string
+  default     = "instance-scheduler"
+}
