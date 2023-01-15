@@ -156,16 +156,40 @@ module "ec2_jumphost" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "4.2.1"
 
-  name = "ec2-${local.aws_name}"
+  name = "ec2-${local.name}"
 
   ami                         = data.aws_ami.amazon_linux.id
   instance_type               = "t3.medium"
-  subnet_id                   = data.aws_subnet.private_subnets_az1.id
-  vpc_security_group_ids      = [module.php.ecs_sg_id]
+  subnet_id                   = module.vpc.private_subnets[0]
+  vpc_security_group_ids      = module.vote_service_sg.security_group_id
   associate_public_ip_address = false
   create_iam_instance_profile = true
   iam_role_description        = "IAM role for EC2 instance"
   iam_role_policies = {
     SSM = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   }
+}
+
+module "vote_service_sg" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  name        = "user-service"
+  description = "Security group for user-service with custom ports open within VPC, and PostgreSQL publicly open"
+  vpc_id      = "vpc-12345678"
+
+  ingress_cidr_blocks      = ["10.10.0.0/16"]
+  ingress_rules            = ["https-443-tcp"]
+  ingress_with_cidr_blocks = [
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      description = "User-service ports"
+      cidr_blocks = "10.10.0.0/16"
+    },
+    {
+      rule        = "postgresql-tcp"
+      cidr_blocks = "0.0.0.0/0"
+    },
+  ]
 }
