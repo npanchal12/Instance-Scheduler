@@ -11,6 +11,8 @@ module "vpc" {
   database_subnets = ["10.0.103.0/24", "10.0.104.0/24"]
 
   enable_nat_gateway = true
+  enable_dns_support   = true
+  enable_dns_hostnames = true
 
   tags = {
     Terraform   = "true"
