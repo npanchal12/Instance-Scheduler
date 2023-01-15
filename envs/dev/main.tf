@@ -168,6 +168,10 @@ module "ec2_jumphost" {
   iam_role_policies = {
     SSM = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   }
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
 }
 
 module "vote_service_sg" {
