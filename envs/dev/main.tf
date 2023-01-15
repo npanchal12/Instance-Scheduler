@@ -40,7 +40,6 @@ module "rds-aurora" {
       identifier     = "mysql-static-1"
       instance_class = "db.t3.small"
     }
-    }
   }
 
   vpc_id                 = module.vpc.vpc_id
