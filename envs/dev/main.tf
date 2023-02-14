@@ -37,7 +37,7 @@ module "lambda_function_stop_ec2" {
   function_name = "stop_non_asg_ec2_instances"
   description   = "lambda function to stop non asg ec2 instances"
   handler       = "index.lambda_handler"
-  runtime       = "python3.9"
+  runtime       = "python3.8"
   role_name     = module.instance_scheduler_role.iam_role_name
 
   source_path = "../../common/lambda/stop-non-asg-ec2-instances"
