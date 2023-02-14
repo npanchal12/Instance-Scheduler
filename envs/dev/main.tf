@@ -21,7 +21,7 @@ module "instance_scheduler_role" {
   create_role             = true
   create_instance_profile = false
   role_requires_mfa       = false
-  role_name               = "${var.standard_tags.product}-role"
+  role_name               = "${var.standard_tags.product}-iam-role"
 }
 
 resource "aws_iam_role_policy_attachment" "instance_scheduler_role_attachment" {
