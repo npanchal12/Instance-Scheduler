@@ -29,11 +29,11 @@ data "aws_caller_identity" "current" {}
 #   }
 # }
 
-# data "archive_file" "stop_non_asg_ec2_instances_code" {
-#   type        = "zip"
-#   source_file = "${path.module}/../../common/lambda/stop-non-asg-ec2-instances/stop-non-asg-ec2-instances.py"
-#   output_path = "${path.module}/../../common/build/stop-non-asg-ec2-instances/stop-non-asg-ec2-instances.zip"
-# }
+data "archive_file" "stop_non_asg_ec2_instances_code" {
+  type        = "zip"
+  source_file = "${path.module}/../../common/lambda/stop-non-asg-ec2-instances/stop-non-asg-ec2-instances.py"
+  output_path = "${path.module}/../../common/build/stop-non-asg-ec2-instances/stop-non-asg-ec2-instances.zip"
+}
 
 # data "archive_file" "start_asg_ec2_instances" {
 #   type        = "zip"

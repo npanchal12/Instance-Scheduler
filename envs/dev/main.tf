@@ -37,11 +37,12 @@ module "lambda_function_stop_ec2" {
   function_name = "stop_non_asg_ec2_instances"
   description   = "lambda function to stop non asg ec2 instances"
   handler       = "index.lambda_handler"
-  runtime       = "python3.8"
+  runtime       = "python3.9"
   role_name     = module.instance_scheduler_role.iam_role_name
+  create_package = false
 
-  source_path = "../../common/lambda/stop-non-asg-ec2-instances"
-  # local_existing_package = "${path.module}/../../common/build/stop-non-asg-ec2-instances/stop-non-asg-ec2-instances.zip"
+  # source_path = "../../common/lambda/stop-non-asg-ec2-instances"
+  local_existing_package = "${path.module}/../../common/build/stop-non-asg-ec2-instances/stop-non-asg-ec2-instances.zip"
 }
 
 # module "lambda_function_start_ec2" {
