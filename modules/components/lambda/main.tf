@@ -6,7 +6,6 @@ module "lambda" {
   # description   = "lambda function to stop non asg ec2 instances"
   handler       = var.handler
   runtime       = var.runtime
-  role_name     = var.role_name
   local_existing_package = var.local_existing_package
 
   tags = {
