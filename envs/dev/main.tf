@@ -12,20 +12,20 @@ module "iam_policy_instance_maintenance" {
   policy = data.aws_iam_policy_document.instance_scheduler_policy.json
 }
 
-module "instance_scheduler_role" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
-  version = "~> 4.13.0"
+# module "instance_scheduler_role" {
+#   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
+#   version = "~> 4.13.0"
 
-  trusted_role_services = ["lambda.amazonaws.com",
-  "scheduler.amazonaws.com"]
-  create_role             = true
-  create_instance_profile = false
-  role_requires_mfa       = false
-  role_name               = "${var.standard_tags.product}-iam-role"
-}
+#   trusted_role_services = ["lambda.amazonaws.com",
+#   "scheduler.amazonaws.com"]
+#   create_role             = true
+#   create_instance_profile = false
+#   role_requires_mfa       = false
+#   role_name               = "${var.standard_tags.product}-role"
+# }
 
 resource "aws_iam_role_policy_attachment" "instance_scheduler_role_attachment" {
-  role       = module.instance_scheduler_role.iam_role_name
+  role       = module.lambda_function_stop_ec2.lambda_role_name
   policy_arn = module.iam_policy_instance_maintenance.arn
 }
 
@@ -38,8 +38,8 @@ module "lambda_function_stop_ec2" {
   description   = "lambda function to stop non asg ec2 instances"
   handler       = "index.lambda_handler"
   runtime       = "python3.9"
-  role_name     = module.instance_scheduler_role.iam_role_name
   create_package = false
+
 
   # source_path = "../../common/lambda/stop-non-asg-ec2-instances"
   local_existing_package = "${path.module}/../../common/build/stop-non-asg-ec2-instances/stop-non-asg-ec2-instances.zip"
