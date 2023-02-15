@@ -34,7 +34,7 @@ module "lambda_function_stop_ec2" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4.10.1"
 
-  function_name = "stop_non_asg_ec2_instances"
+  function_name = "lambda-stop_non_asg_ec2_instances"
   description   = "lambda function to stop non asg ec2 instances"
   handler       = "stop_non_asg_ec2_instances.lambda_handler"
   runtime       = "python3.9"
