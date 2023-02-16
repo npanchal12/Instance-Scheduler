@@ -41,21 +41,21 @@ resource "aws_iam_role_policy_attachment" "eventbridge_role_attachment" {
 }
 
 resource "aws_iam_role_policy_attachment" "ec2_stop_role_attachment" {
-  role       = module.lambda_function_stop_ec2.lambda_role_name
+  role       = module.lambda_function_stop_ec2.lambda_function_name
   policy_arn = module.iam_policy_instance_maintenance.arn
 }
 
 resource "aws_iam_role_policy_attachment" "ec2_start_role_attachment" {
-  role       = module.lambda_function_start_ec2.lambda_role_name
+  role       = module.lambda_function_start_ec2.lambda_function_name
   policy_arn = module.iam_policy_instance_maintenance.arn
 }
 
 resource "aws_iam_role_policy_attachment" "rds_stop_role_attachment" {
-  role       = module.lambda_function_stop_rds.lambda_role_name
-  policy_arn = module.iam_policy_trigger_lambda.arn
+  role       = module.lambda_function_stop_rds.lambda_function_name
+  policy_arn = module.iam_policy_instance_maintenance.arn
 }
 
 resource "aws_iam_role_policy_attachment" "rds_start_role_attachment" {
-  role       = module.lambda_function_start_rds.lambda_role_name
-  policy_arn = module.iam_policy_trigger_lambda.arn
+  role       = module.lambda_function_start_rds.lambda_function_name
+  policy_arn = module.iam_policy_instance_maintenance.arn
 }
