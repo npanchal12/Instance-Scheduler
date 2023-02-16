@@ -1,50 +1,3 @@
-################################################################################
-# IAM Policy and IAM Role
-################################################################################
-module "iam_policy_instance_maintenance" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
-  version = "~> 4.13.0"
-
-  name = "${var.standard_tags.product}-policy"
-  # path        = "/"
-  description = "IAM Policy to stop and start Non-asg ec2 and rds resources"
-
-  policy = data.aws_iam_policy_document.instance_scheduler_policy.json
-}
-
-module "iam_policy_trigger_lambda" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
-  version = "~> 4.13.0"
-
-  name = "lambda-${var.standard_tags.product}-policy"
-  # path        = "/"
-  description = "IAM Policy to to trigger lambda function"
-
-  policy = data.aws_iam_policy_document.eventbridge_sched_policy.json
-}
-
-module "instance_scheduler_role" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
-  version = "~> 4.13.0"
-
-  trusted_role_services = ["lambda.amazonaws.com",
-  "scheduler.amazonaws.com"]
-  create_role             = true
-  create_instance_profile = false
-  role_requires_mfa       = false
-  role_name               = "${var.standard_tags.product}-role"
-}
-
-resource "aws_iam_role_policy_attachment" "instance_scheduler_role_attachment" {
-  role       = module.lambda_function_stop_ec2.lambda_role_name
-  policy_arn = module.iam_policy_instance_maintenance.arn
-}
-
-resource "aws_iam_role_policy_attachment" "eventbridge_role_attachment" {
-  role       = module.instance_scheduler_role.iam_role_name
-  policy_arn = module.iam_policy_trigger_lambda.arn
-}
-
 module "lambda_function_stop_ec2" {
   # source = "../../modules/components/lambda"
   source  = "terraform-aws-modules/lambda/aws"
@@ -74,36 +27,31 @@ module "lambda_function_start_ec2" {
   local_existing_package = "${path.module}/../../common/build/start-non-asg-ec2-instances/start-non-asg-ec2-instances.zip"
 }
 
-# module "lambda_function_stop_rds" {
-#   source  = "terraform-aws-modules/lambda/aws"
-#   version = "~> 4.10.1"
+module "lambda_function_stop_rds" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "~> 4.10.1"
 
-#   function_name = "lambda-stop-rds"
-#   description   = "Lambda to trigger stop rds instance and cluster"
-#   handler       = "index.lambda_handler"
-#   role_name     = module.instance_scheduler_role.iam_role_name
-#   runtime       = "python3.9"
+  function_name = "lambda-stop-rds"
+  description   = "Lambda to trigger stop rds instance and cluster"
+  handler       = "stop-rds.lambda_handler"
+  runtime       = "python3.9"
+  create_package = false
 
-#   source_path = "../../src/stop-rds/"
+  local_existing_package = "${path.module}/../../common/build/stop-rds/stop-rds.zip"
 
-#   tags = {
-#     Name = "lambda-stop-rds"
-#   }
-# }
+}
 
-# module "lambda_function_start_rds" {
-#   source  = "terraform-aws-modules/lambda/aws"
-#   version = "~> 4.10.1"
+module "lambda_function_start_rds" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "~> 4.10.1"
 
-#   function_name = "lambda-start-rds"
-#   description   = "Lambda to trigger start rds instance and cluster"
-#   handler       = "index.lambda_handler"
-#   role_name     = module.instance_scheduler_role.iam_role_name
-#   runtime = "python3.9"
+  function_name = "lambda-start-rds"
+  description   = "Lambda to trigger start rds instance and cluster"
+  handler       = "start-rds.lambda_handler"
+  runtime = "python3.9"
+  source_path = "../../src/start-rds/"
+  create_package = false
 
-#   source_path = "../../src/start-rds/"
+  local_existing_package = "${path.module}/../../common/build/start-rds/start-rds.zip"
 
-#   tags = {
-#     Name = "lambda-start-rds"
-#   }
-# }
+}

@@ -103,7 +103,11 @@ data "aws_iam_policy_document" "eventbridge_sched_policy" {
       "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.id}:function:${module.lambda_function_stop_ec2.lambda_function_name}*",
       "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.id}:function:${module.lambda_function_stop_ec2.lambda_function_name}:*",
       "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.id}:function:${module.lambda_function_start_ec2.lambda_function_name}*",
-      "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.id}:function:${module.lambda_function_start_ec2.lambda_function_name}:*"
+      "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.id}:function:${module.lambda_function_start_ec2.lambda_function_name}:*",
+      "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.id}:function:${module.lambda_function_stop_rds.lambda_function_name}*",
+      "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.id}:function:${module.lambda_function_stop_rds.lambda_function_name}:*",
+      "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.id}:function:${module.lambda_function_start_rds.lambda_function_name}*",
+      "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.id}:function:${module.lambda_function_start_rds.lambda_function_name}:*"
     ]
   }
 }
