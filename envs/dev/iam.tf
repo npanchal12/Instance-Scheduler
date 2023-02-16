@@ -32,7 +32,7 @@ module "iam_policy_trigger_lambda" {
   # path        = "/"
   description = "IAM Policy to to trigger lambda function"
 
-  policy = data.aws_iam_policy_document.eventbridge_sched_policy.json
+  policy = data.aws_iam_policy_document.eventbridge_schedule_policy.json
 }
 
 resource "aws_iam_role_policy_attachment" "eventbridge_role_attachment" {
