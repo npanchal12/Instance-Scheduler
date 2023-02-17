@@ -94,7 +94,7 @@ resource "aws_scheduler_schedule" "example" {
     mode = "OFF"
   }
 
-  schedule_expression = "cron(0 10 * * ? *)"
+  schedule_expression = "cron(39 14 * * ? *)"
 
   target {
     arn      = module.lambda_function_stop_ec2.lambda_function_arn
