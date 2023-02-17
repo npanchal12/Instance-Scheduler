@@ -55,3 +55,49 @@ module "lambda_function_start_rds" {
   local_existing_package = "${path.module}/../../common/build/start-rds/start-rds.zip"
 
 }
+
+# module "eventbridge" {
+#   source  = "terraform-aws-modules/eventbridge/aws"
+#   version = "1.17.2"
+
+#   create_bus = false
+
+#   rules = {
+#     crons = {
+#       description         = "Trigger for a Lambda"
+#       schedule_expression = "rate(5 minutes)"
+#     }
+#   }
+
+#   targets = {
+#     crons = [
+#       {
+#         name  = "lambda-loves-cron"
+#         arn   = module.lambda_function_stop_ec2.lambda_function_arn
+#         input = jsonencode({ "job" : "cron-by-rate" })
+#       }
+#     ]
+#   }
+# }
+
+# module "eventbridge" {
+#   source = "../../modules/components/scheduler"
+#   instance_scheduler_role = var.instance_scheduler_role
+#   lambda_function_arn = var.lambda_function_stop_ec2_arn
+# }
+
+resource "aws_scheduler_schedule" "example" {
+  name       = "stop-non-asg-ec2-instances"
+  group_name = "default"
+
+  flexible_time_window {
+    mode = "OFF"
+  }
+
+  schedule_expression = "cron(0 10 * * ? *)"
+
+  target {
+    arn      = module.lambda_function_stop_ec2.lambda_function_arn
+    role_arn = module.instance_scheduler_role.iam_role_arn
+  }
+}
