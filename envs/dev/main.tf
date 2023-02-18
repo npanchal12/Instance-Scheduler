@@ -86,66 +86,81 @@ module "lambda_function_start_rds" {
 #   lambda_function_arn = var.lambda_function_stop_ec2_arn
 # }
 
-resource "aws_scheduler_schedule" "example" {
-  name = "stop-non-asg-ec2-instances"
 
-  flexible_time_window {
-    mode = "OFF"
-  }
+module "scheduler" {
+  source = "../../modules/components/scheduler"
 
-  schedule_expression          = "cron(15 11 * * ? *)"
-  schedule_expression_timezone = "Asia/Singapore"
+  instance_scheduler_role_arn = module.instance_scheduler_role.iam_role_arn
+  lambda_function_stop_ec2_arn = module.lambda_function_stop_ec2.lambda_function_arn
+  lambda_function_start_ec2_arn = module.lambda_function_start_ec2.lambda_function_arn
+  lambda_function_stop_rds_arn =  module.lambda_function_stop_rds.lambda_function_arn
+  lambda_function_start_rds_arn =  module.lambda_function_start_rds.lambda_function_arn
 
-  target {
-    arn      = module.lambda_function_stop_ec2.lambda_function_arn
-    role_arn = module.instance_scheduler_role.iam_role_arn
-  }
+  # instance_scheduler_role = module.instance_scheduler_role.iam_role_name
+
+
 }
 
-resource "aws_scheduler_schedule" "start_ec2" {
-  name = "start-non-asg-ec2-instances"
+# resource "aws_scheduler_schedule" "example" {
+#   name = "stop-non-asg-ec2-instances"
 
-  flexible_time_window {
-    mode = "OFF"
-  }
+#   flexible_time_window {
+#     mode = "OFF"
+#   }
 
-  schedule_expression          = "cron(05 11 * * ? *)"
-  schedule_expression_timezone = "Asia/Singapore"
+#   schedule_expression          = "cron(15 11 * * ? *)"
+#   schedule_expression_timezone = "Asia/Singapore"
 
-  target {
-    arn      = module.lambda_function_start_ec2.lambda_function_arn
-    role_arn = module.instance_scheduler_role.iam_role_arn
-  }
-}
+#   target {
+#     arn      = module.lambda_function_stop_ec2.lambda_function_arn
+#     role_arn = module.instance_scheduler_role.iam_role_arn
+#   }
+# }
 
-resource "aws_scheduler_schedule" "stop_rds" {
-  name = "stop-non-prod-rds"
+# resource "aws_scheduler_schedule" "start_ec2" {
+#   name = "start-non-asg-ec2-instances"
 
-  flexible_time_window {
-    mode = "OFF"
-  }
+#   flexible_time_window {
+#     mode = "OFF"
+#   }
 
-  schedule_expression          = "cron(49 11 * * ? *)"
-  schedule_expression_timezone = "Asia/Singapore"
+#   schedule_expression          = "cron(05 11 * * ? *)"
+#   schedule_expression_timezone = "Asia/Singapore"
 
-  target {
-    arn      = module.lambda_function_stop_rds.lambda_function_arn
-    role_arn = module.instance_scheduler_role.iam_role_arn
-  }
-}
+#   target {
+#     arn      = module.lambda_function_start_ec2.lambda_function_arn
+#     role_arn = module.instance_scheduler_role.iam_role_arn
+#   }
+# }
 
-resource "aws_scheduler_schedule" "start_rds" {
-  name = "start-non-prod-rds"
+# resource "aws_scheduler_schedule" "stop_rds" {
+#   name = "stop-non-prod-rds"
 
-  flexible_time_window {
-    mode = "OFF"
-  }
+#   flexible_time_window {
+#     mode = "OFF"
+#   }
 
-  schedule_expression          = "cron(28 11 * * ? *)"
-  schedule_expression_timezone = "Asia/Singapore"
+#   schedule_expression          = "cron(49 11 * * ? *)"
+#   schedule_expression_timezone = "Asia/Singapore"
 
-  target {
-    arn      = module.lambda_function_start_rds.lambda_function_arn
-    role_arn = module.instance_scheduler_role.iam_role_arn
-  }
-}
+#   target {
+#     arn      = module.lambda_function_stop_rds.lambda_function_arn
+#     role_arn = module.instance_scheduler_role.iam_role_arn
+#   }
+# }
+
+# resource "aws_scheduler_schedule" "start_rds" {
+#   name = "start-non-prod-rds"
+
+#   flexible_time_window {
+#     mode = "OFF"
+#   }
+
+#   schedule_expression          = "cron(28 11 * * ? *)"
+#   schedule_expression_timezone = "Asia/Singapore"
+
+#   target {
+#     arn      = module.lambda_function_start_rds.lambda_function_arn
+#     role_arn = module.instance_scheduler_role.iam_role_arn
+#   }
+# }

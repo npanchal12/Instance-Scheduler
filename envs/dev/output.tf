@@ -18,6 +18,16 @@ output "lambda_function_start_ec2_arn" {
   value       = module.lambda_function_start_ec2.lambda_function_arn
 }
 
+output "lambda_function_stop_rds_arn" {
+  description = "Lambda Function Name"
+  value       = module.lambda_function_stop_rds.lambda_function_arn
+}
+
+output "lambda_function_start_rds_arn" {
+  description = "Lambda Function Name"
+  value       = module.lambda_function_start_rds.lambda_function_arn
+}
+
 output "instance_scheduler_role_arn" {
   description = "IAM role arn"
   value       = module.instance_scheduler_role.iam_role_arn
