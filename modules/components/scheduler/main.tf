@@ -1,5 +1,5 @@
 resource "aws_scheduler_schedule" "example" {
-  name       = "my-schedule"
+  name = "my-schedule"
 
   flexible_time_window {
     mode = "OFF"

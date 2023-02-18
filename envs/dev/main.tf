@@ -87,8 +87,7 @@ module "lambda_function_start_rds" {
 # }
 
 resource "aws_scheduler_schedule" "example" {
-  name       = "stop-non-asg-ec2-instances"
-  group_name = "default"
+  name = "stop-non-asg-ec2-instances"
 
   flexible_time_window {
     mode = "OFF"
@@ -98,6 +97,21 @@ resource "aws_scheduler_schedule" "example" {
 
   target {
     arn      = module.lambda_function_stop_ec2.lambda_function_arn
+    role_arn = module.instance_scheduler_role.iam_role_arn
+  }
+}
+
+resource "aws_scheduler_schedule" "start_ec2" {
+  name = "start-non-asg-ec2-instances"
+
+  flexible_time_window {
+    mode = "OFF"
+  }
+
+  schedule_expression = "cron(39 14 * * ? *)"
+
+  target {
+    arn      = module.lambda_function_start_ec2.lambda_function_arn
     role_arn = module.instance_scheduler_role.iam_role_arn
   }
 }
