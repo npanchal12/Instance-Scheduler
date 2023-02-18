@@ -125,7 +125,7 @@ resource "aws_scheduler_schedule" "stop_rds" {
     mode = "OFF"
   }
 
-  schedule_expression          = "cron(50 11 * * ? *)"
+  schedule_expression          = "cron(49 11 * * ? *)"
   schedule_expression_timezone = "Asia/Singapore"
 
   target {
