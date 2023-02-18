@@ -125,7 +125,7 @@ resource "aws_scheduler_schedule" "stop_rds" {
     mode = "OFF"
   }
 
-  schedule_expression          = "cron(05 11 * * ? *)"
+  schedule_expression          = "cron(40 11 * * ? *)"
   schedule_expression_timezone = "Asia/Singapore"
 
   target {
@@ -135,13 +135,13 @@ resource "aws_scheduler_schedule" "stop_rds" {
 }
 
 resource "aws_scheduler_schedule" "start_rds" {
-  name = "start-non-asg-ec2-instances"
+  name = "start-non-prod-rds"
 
   flexible_time_window {
     mode = "OFF"
   }
 
-  schedule_expression          = "cron(05 11 * * ? *)"
+  schedule_expression          = "cron(28 11 * * ? *)"
   schedule_expression_timezone = "Asia/Singapore"
 
   target {
