@@ -93,7 +93,8 @@ resource "aws_scheduler_schedule" "example" {
     mode = "OFF"
   }
 
-  schedule_expression = "cron(39 14 * * ? *)"
+  schedule_expression = "cron(15 11 * * ? *)"
+  schedule_expression_timezone = "Asia/Singapore"
 
   target {
     arn      = module.lambda_function_stop_ec2.lambda_function_arn
@@ -108,7 +109,8 @@ resource "aws_scheduler_schedule" "start_ec2" {
     mode = "OFF"
   }
 
-  schedule_expression = "cron(39 14 * * ? *)"
+  schedule_expression = "cron(05 11 * * ? *)"
+  schedule_expression_timezone = "Asia/Singapore"
 
   target {
     arn      = module.lambda_function_start_ec2.lambda_function_arn
