@@ -5,7 +5,7 @@
 
 
 resource "aws_iam_policy" "eventbridge_schedule_policy" {
-  name_prefix = "eventbridge-${var.app_name}"
+  name_prefix = "${var.app_name}-policy"
   policy      = data.aws_iam_policy_document.eventbridge_schedule_policy.json
 }
 
@@ -23,14 +23,14 @@ module "instance_scheduler_role" {
   ]
 }
 
-module "iam_policy_trigger_lambda" {
-  source = "../iam"
-#   source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
-#   version = "~> 4.13.0"
+# module "iam_policy_trigger" {
+#   source = "../iam"
+# #   source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
+# #   version = "~> 4.13.0"
 
-  policy_name = "lambda-${var.app_name}-policy"
-  # path        = "/"
-  policy_description = "IAM Policy to to trigger lambda function"
+#   policy_name = "lambda-${var.app_name}-policy"
+#   # path        = "/"
+#   policy_description = "IAM Policy to to trigger lambda function"
 
-  policy = data.aws_iam_policy_document.eventbridge_schedule_policy.json
-}
+#   policy = data.aws_iam_policy_document.eventbridge_schedule_policy.json
+# }

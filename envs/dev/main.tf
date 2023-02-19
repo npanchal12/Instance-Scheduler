@@ -15,7 +15,7 @@ module "lambda_function_start_ec2" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4.10.1"
 
-  function_name  = "lambda-start_non_asg_ec2_instances"
+  function_name  = "lambda-start_non-asg-ec2_instances"
   description    = "lambda function to start non asg ec2 instances"
   handler        = "start-non-asg-ec2-instances.lambda_handler"
   runtime        = "python3.9"
