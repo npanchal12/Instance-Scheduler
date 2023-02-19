@@ -5,7 +5,7 @@ resource "aws_scheduler_schedule" "stop_ec2" {
     mode = "OFF"
   }
 
-  schedule_expression          = "cron(15 11 * * ? *)"
+  schedule_expression          = "cron(48 11 * * ? *)"
   schedule_expression_timezone = "Asia/Singapore"
 
   target {
