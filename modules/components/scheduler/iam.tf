@@ -24,8 +24,9 @@ module "instance_scheduler_role" {
 }
 
 module "iam_policy_trigger_lambda" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
-  version = "~> 4.13.0"
+  source = "../iam"
+#   source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
+#   version = "~> 4.13.0"
 
   name = "lambda-${var.app_name}-policy"
   # path        = "/"
