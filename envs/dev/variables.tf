@@ -39,14 +39,3 @@ variable "aws_region" {
   type        = string
   default     = "ap-southeast-1"
 }
-
-# variable "instance_scheduler_role" {
-#   description = "IAM Role"
-#   type        = string
-# }
-
-# variable "lambda_function_stop_ec2_arn" {
-#   description = "Lambda function name"
-#   type        = string
-# }
-

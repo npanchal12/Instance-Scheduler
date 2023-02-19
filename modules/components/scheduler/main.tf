@@ -10,7 +10,7 @@ resource "aws_scheduler_schedule" "stop_ec2" {
 
   target {
     arn      = var.lambda_function_stop_ec2_arn
-    role_arn = var.instance_scheduler_role_arn
+    role_arn = module.instance_scheduler_role.iam_role_arn
   }
 }
 
@@ -26,7 +26,7 @@ resource "aws_scheduler_schedule" "start_ec2" {
 
   target {
     arn      = var.lambda_function_start_ec2_arn
-    role_arn = var.instance_scheduler_role_arn
+    role_arn = module.instance_scheduler_role.iam_role_arn
   }
 }
 
@@ -42,7 +42,7 @@ resource "aws_scheduler_schedule" "stop_rds" {
 
   target {
     arn      = var.lambda_function_stop_rds_arn
-    role_arn = var.instance_scheduler_role_arn
+    role_arn = module.instance_scheduler_role.iam_role_arn
   }
 }
 
@@ -58,7 +58,6 @@ resource "aws_scheduler_schedule" "start_rds" {
 
   target {
     arn      = var.lambda_function_start_rds_arn
-    role_arn = var.instance_scheduler_role_arn
+    role_arn = module.instance_scheduler_role.iam_role_arn
   }
-}
-
+}# 
