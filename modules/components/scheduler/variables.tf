@@ -1,18 +1,13 @@
-# variable "instance_scheduler_role" {
-#   description = "IAM Role"
-#   type        = string
-
-# }
-
-# variable "lambda_function_arn" {
-#   description = "IAM Role"
-#   type        = string
-# }
-
-variable "instance_scheduler_role_arn" {
-  description = "IAM Role ARN"
+variable "app_name" {
+  description = "Name of the application. This will be used as prefix for all the resources"
   type        = string
+  default     = "instance-scheduler"
 }
+
+# variable "instance_scheduler_role_arn" {
+#   description = "IAM Role ARN"
+#   type        = string
+# }
 
 variable "lambda_function_stop_ec2_arn" {
   description = "IAM Role"
@@ -30,6 +25,26 @@ variable "lambda_function_stop_rds_arn" {
 }
 
 variable "lambda_function_start_rds_arn" {
+  description = "IAM Role"
+  type        = string
+}
+
+variable "lambda_function_stop_ec2_name" {
+  description = "IAM Role"
+  type        = string
+}
+
+variable "lambda_function_start_ec2_name" {
+  description = "IAM Role"
+  type        = string
+}
+
+variable "lambda_function_stop_rds_name" {
+  description = "IAM Role"
+  type        = string
+}
+
+variable "lambda_function_start_rds_name" {
   description = "IAM Role"
   type        = string
 }
