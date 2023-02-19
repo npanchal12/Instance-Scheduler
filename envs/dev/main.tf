@@ -2,7 +2,7 @@ module "lambda_function_stop_ec2" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4.10.1"
 
-  function_name  = "lambda-stop-non-asg-ec2"
+  function_name  = "lambda-stop-non-asg-ec2-instances"
   description    = "lambda function to stop non asg ec2 instances"
   handler        = "stop-non-asg-ec2-instances.lambda_handler"
   runtime        = "python3.9"
@@ -15,7 +15,7 @@ module "lambda_function_start_ec2" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4.10.1"
 
-  function_name  = "lambda-start_non-asg-ec2S"
+  function_name  = "lambda-start_non-asg-ec2_instances"
   description    = "lambda function to start non asg ec2 instances"
   handler        = "start-non-asg-ec2-instances.lambda_handler"
   runtime        = "python3.9"
