@@ -1,9 +1,3 @@
-# resource "aws_iam_role_policy_attachment" "eventbridge_role_attachment" {
-#   role       = module.instance_scheduler_role.iam_role_name
-#   policy_arn = module.iam_policy_trigger_lambda.arn
-# }
-
-
 resource "aws_iam_policy" "eventbridge_schedule_policy" {
   name_prefix = "${var.app_name}-policy"
   policy      = data.aws_iam_policy_document.eventbridge_schedule_policy.json
