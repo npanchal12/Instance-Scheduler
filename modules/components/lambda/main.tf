@@ -46,7 +46,6 @@ module "lambda_function_start_rds" {
   description    = "Lambda to trigger start rds instance and cluster"
   handler        = "start-rds.lambda_handler"
   runtime        = "python3.9"
-  source_path    = "../../src/start-rds/"
   create_package = false
 
   local_existing_package = var.start_rds_code
