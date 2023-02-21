@@ -25,3 +25,23 @@ variable "runtime" {
   type        = string
   default     = "python3.9"
 }
+
+variable "stop_ec2_code" {
+  description = "Path for the stop ec2 nstance code"
+  type        = string
+}
+
+variable "start_ec2_code" {
+  description = "Path for the start ec2 nstance code"
+  type        = string
+}
+
+variable "stop_rds_code" {
+  description = "Path for the stop rds cluster and instance code"
+  type        = string
+}
+
+variable "start_rds_code" {
+  description = "Path for the start rds cluster and instance code"
+  type        = string
+}
