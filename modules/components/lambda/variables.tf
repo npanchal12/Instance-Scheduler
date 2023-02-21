@@ -14,21 +14,6 @@ variable "env" {
   default     = "dev"
 }
 
-# variable "local_existing_package" {
-#   description = "Path for Non-ASG EC2 Instance code"
-#   type        = string
-# }
-
-# variable "description" {
-#   description = "Description for Lambda functions"
-#   type        = string
-# }
-
-# variable "function_name" {
-#   description = "Lambda function name"
-#   type        = string
-# }
-
 variable "handler" {
   description = "Lambda function handler"
   type        = string
@@ -41,7 +26,22 @@ variable "runtime" {
   default     = "python3.9"
 }
 
-# variable "role_name" {
-#   description = "IAM role to invoke lambda, stop and start aws resources"
-#   type        = string
-# }
+variable "stop_ec2_code" {
+  description = "Path for the stop ec2 nstance code"
+  type        = string
+}
+
+variable "start_ec2_code" {
+  description = "Path for the start ec2 nstance code"
+  type        = string
+}
+
+variable "stop_rds_code" {
+  description = "Path for the stop rds cluster and instance code"
+  type        = string
+}
+
+variable "start_rds_code" {
+  description = "Path for the start rds cluster and instance code"
+  type        = string
+}

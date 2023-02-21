@@ -37,14 +37,3 @@ output "lambda_function_start_rds_arn" {
   description = "Lambda Function Name"
   value       = module.lambda_function_start_rds.lambda_function_arn
 }
-
-# output "instance_scheduler_role_arn" {
-#   description = "IAM role arn"
-#   value       = module.instance_scheduler_role.iam_role_arn
-# }
-
-# output "arn" {
-#   description = "IAM Policy arn "
-#   value       = module.iam_policy_instance_maintenance.arn
-
-# }

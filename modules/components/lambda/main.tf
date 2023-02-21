@@ -8,7 +8,7 @@ module "lambda_function_stop_ec2" {
   runtime        = "python3.9"
   create_package = false
 
-  local_existing_package = "${path.module}/../../../common/build/stop-non-asg-ec2-instances/stop-non-asg-ec2-instances.zip"
+  local_existing_package = var.stop_ec2_code
 }
 
 module "lambda_function_start_ec2" {
@@ -21,7 +21,7 @@ module "lambda_function_start_ec2" {
   runtime        = "python3.9"
   create_package = false
 
-  local_existing_package = "${path.module}/../../../common/build/start-non-asg-ec2-instances/start-non-asg-ec2-instances.zip"
+  local_existing_package = var.start_ec2_code
 }
 
 module "lambda_function_stop_rds" {
@@ -34,7 +34,7 @@ module "lambda_function_stop_rds" {
   runtime        = "python3.9"
   create_package = false
 
-  local_existing_package = "${path.module}/../../../common/build/stop-rds/stop-rds.zip"
+  local_existing_package = var.stop_rds_code
 
 }
 
@@ -49,5 +49,5 @@ module "lambda_function_start_rds" {
   source_path    = "../../src/start-rds/"
   create_package = false
 
-  local_existing_package = "${path.module}/../../../common/build/start-rds/start-rds.zip"
+  local_existing_package = var.start_rds_code
 }

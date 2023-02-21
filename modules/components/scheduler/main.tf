@@ -60,4 +60,4 @@ resource "aws_scheduler_schedule" "start_rds" {
     arn      = var.lambda_function_start_rds_arn
     role_arn = module.instance_scheduler_role.iam_role_arn
   }
-}# 
+}

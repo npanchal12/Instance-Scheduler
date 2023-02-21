@@ -4,11 +4,6 @@ variable "app_name" {
   default     = "instance-scheduler"
 }
 
-# variable "instance_scheduler_role_arn" {
-#   description = "IAM Role ARN"
-#   type        = string
-# }
-
 variable "lambda_function_stop_ec2_arn" {
   description = "IAM Role"
   type        = string
