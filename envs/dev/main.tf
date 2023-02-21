@@ -15,8 +15,9 @@ module "scheduler" {
 
 module "lambda_function" {
   source         = "../../modules/components/lambda"
-  stop_ec2_code  = "${path.module}/../../../common/build/stop-non-asg-ec2-instances/stop-non-asg-ec2-instances.zip"
-  start_ec2_code = "${path.module}/../../../common/build/start-non-asg-ec2-instances/start-non-asg-ec2-instances.zip"
-  stop_rds_code  = "${path.module}/../../../common/build/stop-rds/stop-rds.zip"
-  start_rds_code = "${path.module}/../../../common/build/start-rds/start-rds.zip"
+  
+  stop_ec2_code  = "${path.module}/../../common/build/stop-non-asg-ec2-instances/stop-non-asg-ec2-instances.zip"
+  start_ec2_code = "${path.module}/../../common/build/start-non-asg-ec2-instances/start-non-asg-ec2-instances.zip"
+  stop_rds_code  = "${path.module}/../../common/build/stop-rds/stop-rds.zip"
+  start_rds_code = "${path.module}/../../common/build/start-rds/start-rds.zip"
 }
