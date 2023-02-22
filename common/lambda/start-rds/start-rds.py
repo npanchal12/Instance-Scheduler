@@ -1,30 +1,34 @@
 import boto3
-import botocore
+from botocore.exceptions import ClientError
 
-rds = boto3.client('rds', region_name='ap-southeast-1')
+# Define filter parameters for RDS clusters based on environment tag
+environment_filter = [{'Name': 'tag:env', 'Values': ['prd']}]
 
+# Create an RDS client
+client = boto3.client('rds')
 
+def start_rds_clusters(event, context):
+    try:
+        # Get all RDS clusters
+        response = client.describe_db_clusters()
+        for cluster in response['DBClusters']:
+            cluster_id = cluster['DBClusterIdentifier']
+            status = cluster['Status']
+            if status == 'stopped':
+                # Check if the RDS cluster matches the environment filter
+                if all(filter not in cluster['TagList'] for filter in environment_filter):
+                    # RDS cluster does not match the environment filter, start it
+                    client.start_db_cluster(DBClusterIdentifier=cluster_id)
+                    print(f'Successfully started RDS cluster: {cluster_id}')
+                else:
+                    # RDS cluster matches the environment filter
+                    print(f'Skipping RDS cluster: {cluster_id} as it matches the environment filter')
+            else:
+                # RDS cluster is already started
+                print(f'RDS cluster {cluster_id} is already started')
+    except ClientError as e:
+        print(f'Error starting RDS clusters: {e}')
+
+# Lambda function handler
 def lambda_handler(event, context):
-        # get all mysql db instances
-    rds_mysql = rds.describe_db_instances(Filters=[
-        {
-            'Name': 'engine',
-            'Values': ['mysql']
-            
-        }
-        ])
-    for db in rds_mysql['DBInstances']:
-        # start all rds instances
-        
-        try:
-            rds.start_db_instance(DBInstanceIdentifier=db['DBInstanceIdentifier'])
-        except botocore.exceptions.ClientError as err:
-            print(err)
-    # get all aurora db clusters
-    rds_aurora = rds.describe_db_clusters()
-        #start all aurora cluster
-    for aurora_cluster in rds_aurora['DBClusters']:
-        try:
-            rds.start_db_cluster(DBClusterIdentifier=aurora_cluster['DBClusterIdentifier'])
-        except botocore.exceptions.ClientError as err:
-            print(err)
+    start_rds_clusters(event, context)
