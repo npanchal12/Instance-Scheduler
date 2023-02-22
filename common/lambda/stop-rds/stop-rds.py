@@ -1,30 +1,23 @@
 import boto3
-import botocore
+from botocore.exceptions import ClientError
 
-rds = boto3.client('rds', region_name='ap-southeast-1')
+# Define filter parameters for RDS clusters based on environment tag
+environment_filter = [{'Name': 'tag:env', 'Values': ['prd']}]
 
+# Create an RDS client
+client = boto3.client('rds')
 
 def lambda_handler(event, context):
-        # get all mysql db instances
-    rds_mysql = rds.describe_db_instances(Filters=[
-        {
-            'Name': 'engine',
-            'Values': ['mysql']
-            
-        }
-        ])
-    for db in rds_mysql['DBInstances']:
-        # stop all rds instances
-        
-        try:
-            rds.stop_db_instance(DBInstanceIdentifier=db['DBInstanceIdentifier'])
-        except botocore.exceptions.ClientError as err:
-            print(err)
-    # get all aurora db clusters
-    rds_aurora = rds.describe_db_clusters()
-        #stop all aurora cluster
-    for aurora_cluster in rds_aurora['DBClusters']:
-        try:
-            rds.stop_db_cluster(DBClusterIdentifier=aurora_cluster['DBClusterIdentifier'])
-        except botocore.exceptions.ClientError as err:
-            print(err)
+    # Stop RDS clusters that do not match the environment filter
+    try:
+        clusters = client.describe_db_clusters()
+        for cluster in clusters['DBClusters']:
+            cluster_id = cluster['DBClusterIdentifier']
+            status = cluster['Status']
+            if status == 'available' and cluster['TagList'] != environment_filter:
+                client.stop_db_cluster(DBClusterIdentifier=cluster_id)
+                print(f'Successfully stopped RDS cluster: {cluster_id}')
+            else:
+                print(f'RDS cluster {cluster_id} already stopped or does not match filter')
+    except ClientError as e:
+        print(f'Error stopping RDS clusters: {e}')
