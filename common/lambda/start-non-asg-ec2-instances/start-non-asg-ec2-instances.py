@@ -9,7 +9,7 @@ def lambda_handler(event, context):
         },
         {
               'Name': 'tag:Name',
-              'Values': ['Non-asg-*']
+              'Values': ['non-asg-*','Non-asg-*']
         },
      ])
     for instance in instances:
