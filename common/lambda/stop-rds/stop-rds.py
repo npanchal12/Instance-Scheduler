@@ -2,7 +2,7 @@ import boto3
 from botocore.exceptions import ClientError
 
 # Define filter parameters for RDS clusters based on environment tag
-environment_filter = [{'Name': 'tag:env', 'Values': ['prd']}]
+environment_filter = [{'Name': 'tag:sph:env', 'Values': ['dev']}]
 
 # Create an RDS client
 client = boto3.client('rds')
