@@ -12,8 +12,8 @@ def lambda_handler(event, context):
               'Values': ['non-asg-*','Non-asg-*']
         },
      ])
-    for instance in instances:
-         id= instance.id
-         ec2.instances.filter(InstanceIds=[id]).start()
-         print("Instance ID started="+str(id))
+    
+    instances.start()
+    ids = ", ".join([instance.id for instance in instances])
+    print(f"Instance IDs started: {ids}")
     return "success"
