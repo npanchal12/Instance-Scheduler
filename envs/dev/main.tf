@@ -24,3 +24,17 @@ module "lambda_function" {
   # start_rds_code = "${path.module}/../../common/build/start-rds/start-rds.zip"
   start_stop_rds_code = "${path.module}/../../common/build/start-stop-rds/start-stop-rds.zip"
 }
+
+module "kms_key" {
+  source  = "terraform-aws-modules/kms/aws"
+  version = "1.5.0"
+  aliases     = ["backupvault-kms-key"]
+  description = "KMS key for backup vault"
+}
+resource "aws_backup_vault" "backup-vault" {
+  name        = var.backup_vault_name
+  kms_key_arn = module.kms_key.key_arn
+  tags = {
+    Role = "backup-vault"
+  }
+}
