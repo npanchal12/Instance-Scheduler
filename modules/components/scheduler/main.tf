@@ -45,7 +45,7 @@ resource "aws_scheduler_schedule" "stop_rds" {
     role_arn = module.instance_scheduler_role.iam_role_arn
 
     input = jsonencode({
-      "status" : "stopped"
+      "status" : "available"
     })
   }
 }

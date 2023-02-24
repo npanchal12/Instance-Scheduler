@@ -57,7 +57,7 @@ module "lambda_function_start_stop_rds" {
 
   function_name  = "lambda-start-stop-rds"
   description    = "Lambda to trigger stop rds instance and cluster"
-  handler        = "start_stop_rds.lambda_handler"
+  handler        = "start-stop-rds.lambda_handler"
   runtime        = "python3.9"
   create_package = false
 

@@ -1,13 +1,13 @@
 import boto3
 
 def lambda_handler(event, context):
-    # Extract the desired status from the input event
+    # Extract the desired status from the input payload event
     desired_status = event['status']
 
-    # Create an RDS client
+    # Create an connection using RDS client
     rds_client = boto3.client('rds')
 
-    # Get information about all RDS clusters
+    # Get information about all RDS clusters in account
     response = rds_client.describe_db_clusters()
 
     # Iterate through the clusters and check their status
