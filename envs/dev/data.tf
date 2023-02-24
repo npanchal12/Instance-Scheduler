@@ -12,16 +12,23 @@ data "archive_file" "start_ec2_zip_file" {
   type        = "zip"
 }
 
-data "archive_file" "stop_rds_zip_file" {
+# data "archive_file" "stop_rds_zip_file" {
 
-  output_path = "${path.module}/../../common/build/stop-rds/stop-rds.zip"
-  source_dir  = "${path.module}/../../common/lambda/stop-rds"
-  type        = "zip"
-}
+#   output_path = "${path.module}/../../common/build/stop-rds/stop-rds.zip"
+#   source_dir  = "${path.module}/../../common/lambda/stop-rds"
+#   type        = "zip"
+# }
 
-data "archive_file" "start_rds_zip_file" {
+# data "archive_file" "start_rds_zip_file" {
 
-  output_path = "${path.module}/../../common/build/start-rds/start-rds.zip"
-  source_dir  = "${path.module}/../../common/lambda/start-rds"
+#   output_path = "${path.module}/../../common/build/start-rds/start-rds.zip"
+#   source_dir  = "${path.module}/../../common/lambda/start-rds"
+#   type        = "zip"
+# }
+
+data "archive_file" "start_stop_rds_zip_file" {
+
+  output_path = "${path.module}/../../common/build/start-stop-rds/start-stop-rds.zip"
+  source_dir  = "${path.module}/../../common/lambda/start-stop-rds"
   type        = "zip"
 }

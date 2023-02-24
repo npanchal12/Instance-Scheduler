@@ -1,34 +1,44 @@
-import boto3
-from botocore.exceptions import ClientError
+# import boto3
+# import json
 
-# Define filter parameters for RDS clusters based on environment tag
-environment_filter = [{'Name': 'tag:sph:env', 'Values': ['dev']}]
+# def lambda_handler(event, context):
+#     try:
+#         # parse the input payload
+#         payload = json.loads(event['body'])
+#         desired_status = payload['status']
+#     except KeyError:
+#         return {
+#             'statusCode': 400,
+#             'body': 'Invalid input payload'
+#         }
+    
+#     # create an RDS client
+#     rds_client = boto3.client('rds')
 
-# Create an RDS client
-client = boto3.client('rds')
+#     # get information about all RDS clusters
+#     response = rds_client.describe_db_clusters()
 
-def start_rds_clusters(event, context):
-    try:
-        # Get all RDS clusters
-        response = client.describe_db_clusters()
-        for cluster in response['DBClusters']:
-            cluster_id = cluster['DBClusterIdentifier']
-            status = cluster['Status']
-            if status == 'stopped':
-                # Check if the RDS cluster matches the environment filter
-                if all(filter not in cluster['TagList'] for filter in environment_filter):
-                    # RDS cluster does not match the environment filter, start it
-                    client.start_db_cluster(DBClusterIdentifier=cluster_id)
-                    print(f'Successfully started RDS cluster: {cluster_id}')
-                else:
-                    # RDS cluster matches the environment filter
-                    print(f'Skipping RDS cluster: {cluster_id} as it matches the environment filter')
-            else:
-                # RDS cluster is already started
-                print(f'RDS cluster {cluster_id} is already started')
-    except ClientError as e:
-        print(f'Error starting RDS clusters: {e}')
+#     # iterate through the clusters and check their status
+#     for cluster in response['DBClusters']:
+#         cluster_name = cluster['DBClusterIdentifier']
+#         cluster_status = cluster['Status']
 
-# Lambda function handler
-def lambda_handler(event, context):
-    start_rds_clusters(event, context)
+#         # if the cluster is in the desired status, stop or start it
+#         if cluster_status == desired_status:
+#             response = rds_client.stop_db_cluster(
+#                 DBClusterIdentifier=cluster_name
+#             )
+#             print(f"Stopped cluster {cluster_name}")
+#         elif cluster_status != desired_status:
+#             response = rds_client.start_db_cluster(
+#                 DBClusterIdentifier=cluster_name
+#             )
+#             print(f"Started cluster {cluster_name}")
+#         else:
+#             print(f"Skipping cluster {cluster_name} with status {cluster_status}")
+    
+#     # return a success message
+#     return {
+#         'statusCode': 200,
+#         'body': f"All RDS clusters in {desired_status} status have been stopped or started."
+#     }

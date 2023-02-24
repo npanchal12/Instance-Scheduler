@@ -24,29 +24,43 @@ module "lambda_function_start_ec2" {
   local_existing_package = var.start_ec2_code
 }
 
-module "lambda_function_stop_rds" {
+# module "lambda_function_stop_rds" {
+#   source  = "terraform-aws-modules/lambda/aws"
+#   version = "~> 4.10.1"
+
+#   function_name  = "lambda-stop-rds"
+#   description    = "Lambda to trigger stop rds instance and cluster"
+#   handler        = "stop-rds.lambda_handler"
+#   runtime        = "python3.9"
+#   create_package = false
+
+#   local_existing_package = var.stop_rds_code
+
+# }
+
+# module "lambda_function_start_rds" {
+#   source  = "terraform-aws-modules/lambda/aws"
+#   version = "~> 4.10.1"
+
+#   function_name  = "lambda-start-rds"
+#   description    = "Lambda to trigger start rds instance and cluster"
+#   handler        = "start-rds.lambda_handler"
+#   runtime        = "python3.9"
+#   create_package = false
+
+#   local_existing_package = var.start_rds_code
+# }
+
+module "lambda_function_start_stop_rds" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4.10.1"
 
-  function_name  = "lambda-stop-rds"
+  function_name  = "lambda-start-stop-rds"
   description    = "Lambda to trigger stop rds instance and cluster"
-  handler        = "stop-rds.lambda_handler"
+  handler        = "start_stop_rds.lambda_handler"
   runtime        = "python3.9"
   create_package = false
 
-  local_existing_package = var.stop_rds_code
+  local_existing_package = var.start_stop_rds_code
 
-}
-
-module "lambda_function_start_rds" {
-  source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4.10.1"
-
-  function_name  = "lambda-start-rds"
-  description    = "Lambda to trigger start rds instance and cluster"
-  handler        = "start-rds.lambda_handler"
-  runtime        = "python3.9"
-  create_package = false
-
-  local_existing_package = var.start_rds_code
 }

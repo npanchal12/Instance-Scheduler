@@ -41,7 +41,7 @@ resource "aws_scheduler_schedule" "stop_rds" {
   schedule_expression_timezone = "Asia/Singapore"
 
   target {
-    arn      = var.lambda_function_stop_rds_arn
+    arn      = var.lambda_function_start_stop_rds_arn
     role_arn = module.instance_scheduler_role.iam_role_arn
   }
 }
@@ -57,7 +57,7 @@ resource "aws_scheduler_schedule" "start_rds" {
   schedule_expression_timezone = "Asia/Singapore"
 
   target {
-    arn      = var.lambda_function_start_rds_arn
+    arn      = var.lambda_function_start_stop_rds_arn
     role_arn = module.instance_scheduler_role.iam_role_arn
   }
 }
