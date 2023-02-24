@@ -14,15 +14,20 @@ variable "lambda_function_start_ec2_arn" {
   type        = string
 }
 
-variable "lambda_function_stop_rds_arn" {
-  description = "IAM Role"
-  type        = string
-}
+# variable "lambda_function_stop_rds_arn" {
+#   description = "IAM Role"
+#   type        = string
+# }
 
-variable "lambda_function_start_rds_arn" {
-  description = "IAM Role"
-  type        = string
-}
+# variable "lambda_function_start_rds_arn" {
+#   description = "IAM Role"
+#   type        = string
+# }
+
+# variable "lambda_function_start_rds_arn" {
+#   description = "IAM Role"
+#   type        = string
+# }
 
 variable "lambda_function_stop_ec2_name" {
   description = "IAM Role"
@@ -34,12 +39,17 @@ variable "lambda_function_start_ec2_name" {
   type        = string
 }
 
-variable "lambda_function_stop_rds_name" {
+# variable "lambda_function_stop_rds_name" {
+#   description = "IAM Role"
+#   type        = string
+# }
+
+variable "lambda_function_start_stop_rds_name" {
   description = "IAM Role"
   type        = string
 }
 
-variable "lambda_function_start_rds_name" {
+variable "lambda_function_start_stop_rds_arn" {
   description = "IAM Role"
   type        = string
 }
