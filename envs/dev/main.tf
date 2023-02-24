@@ -30,6 +30,7 @@ module "kms_key" {
   version     = "1.5.0"
   aliases     = ["backupvault-kms-key"]
   description = "KMS key for backup vault"
+  enable_default_policy                  = true
 }
 resource "aws_backup_vault" "backup-vault" {
   name        = var.backup_vault_name
