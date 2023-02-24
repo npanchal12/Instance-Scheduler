@@ -3,16 +3,16 @@ module "scheduler" {
   source = "../../modules/components/scheduler"
 
   # instance_scheduler_role_arn = module.instance_scheduler_role.iam_role_arn
-  lambda_function_stop_ec2_arn   = module.lambda_function.lambda_function_stop_ec2_arn
-  lambda_function_start_ec2_arn  = module.lambda_function.lambda_function_start_ec2_arn
+  lambda_function_stop_ec2_arn  = module.lambda_function.lambda_function_stop_ec2_arn
+  lambda_function_start_ec2_arn = module.lambda_function.lambda_function_start_ec2_arn
   # lambda_function_stop_rds_arn   = module.lambda_function.lambda_function_stop_rds_arn
   # lambda_function_start_rds_arn  = module.lambda_function.lambda_function_start_rds_arn
   lambda_function_stop_ec2_name  = module.lambda_function.lambda_function_stop_ec2_name
   lambda_function_start_ec2_name = module.lambda_function.lambda_function_start_ec2_name
   # lambda_function_stop_rds_name  = module.lambda_function.lambda_function_stop_rds_name
   # lambda_function_start_rds_name = module.lambda_function.lambda_function_start_rds_name
-  lambda_function_start_stop_rds_arn   = module.lambda_function.lambda_function_start_stop_rds_arn
-  lambda_function_start_stop_rds_name  = module.lambda_function.lambda_function_start_stop_rds_name
+  lambda_function_start_stop_rds_arn  = module.lambda_function.lambda_function_start_stop_rds_arn
+  lambda_function_start_stop_rds_name = module.lambda_function.lambda_function_start_stop_rds_name
 }
 
 module "lambda_function" {
@@ -26,8 +26,8 @@ module "lambda_function" {
 }
 
 module "kms_key" {
-  source  = "terraform-aws-modules/kms/aws"
-  version = "1.5.0"
+  source      = "terraform-aws-modules/kms/aws"
+  version     = "1.5.0"
   aliases     = ["backupvault-kms-key"]
   description = "KMS key for backup vault"
 }

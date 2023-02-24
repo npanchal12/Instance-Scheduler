@@ -43,6 +43,10 @@ resource "aws_scheduler_schedule" "stop_rds" {
   target {
     arn      = var.lambda_function_start_stop_rds_arn
     role_arn = module.instance_scheduler_role.iam_role_arn
+
+    input = jsonencode({
+      "status" : "stopped"
+    })
   }
 }
 
@@ -59,5 +63,9 @@ resource "aws_scheduler_schedule" "start_rds" {
   target {
     arn      = var.lambda_function_start_stop_rds_arn
     role_arn = module.instance_scheduler_role.iam_role_arn
+
+    input = jsonencode({
+      "status" : "available"
+    })
   }
 }
