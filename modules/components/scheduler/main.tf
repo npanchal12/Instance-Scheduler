@@ -5,7 +5,7 @@ resource "aws_scheduler_schedule" "stop_ec2" {
     mode = "OFF"
   }
 
-  schedule_expression          = "cron(00 23 ? * MON-FRI *)"
+  schedule_expression          = "cron(35 18 ? * MON-SAT *)"
   schedule_expression_timezone = "Asia/Singapore"
 
   target {
@@ -45,7 +45,7 @@ resource "aws_scheduler_schedule" "stop_rds" {
     mode = "OFF"
   }
 
-  schedule_expression          = "cron(00 23 ? * MON-FRI *)"
+  schedule_expression          = "cron(35 18 ? * MON-SAT *)"
   schedule_expression_timezone = "Asia/Singapore"
 
   target {
