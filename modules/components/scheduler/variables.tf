@@ -4,15 +4,15 @@ variable "app_name" {
   default     = "instance-scheduler"
 }
 
-variable "lambda_function_stop_ec2_arn" {
-  description = "IAM Role"
-  type        = string
-}
+# variable "lambda_function_stop_ec2_arn" {
+#   description = "IAM Role"
+#   type        = string
+# }
 
-variable "lambda_function_start_ec2_arn" {
-  description = "IAM Role"
-  type        = string
-}
+# variable "lambda_function_start_ec2_arn" {
+#   description = "IAM Role"
+#   type        = string
+# }
 
 # variable "lambda_function_stop_rds_arn" {
 #   description = "IAM Role"
@@ -29,15 +29,15 @@ variable "lambda_function_start_ec2_arn" {
 #   type        = string
 # }
 
-variable "lambda_function_stop_ec2_name" {
-  description = "IAM Role"
-  type        = string
-}
+# variable "lambda_function_stop_ec2_name" {
+#   description = "IAM Role"
+#   type        = string
+# }
 
-variable "lambda_function_start_ec2_name" {
-  description = "IAM Role"
-  type        = string
-}
+# variable "lambda_function_start_ec2_name" {
+#   description = "IAM Role"
+#   type        = string
+# }
 
 # variable "lambda_function_stop_rds_name" {
 #   description = "IAM Role"
@@ -45,11 +45,21 @@ variable "lambda_function_start_ec2_name" {
 # }
 
 variable "lambda_function_start_stop_rds_name" {
-  description = "IAM Role"
+  description = "Lambda Function name to Stop and Start RDS"
   type        = string
 }
 
 variable "lambda_function_start_stop_rds_arn" {
-  description = "IAM Role"
+  description = "Lambda Function Arn to Stop and Start RDS"
+  type        = string
+}
+
+variable "lambda_function_start_stop_non_asg_ec2_name" {
+  description = "Lambda Function name to Stop and Start Non-ASG EC2 Instances"
+  type        = string
+}
+
+variable "lambda_function_start_stop_non_asg_ec2_arn" {
+  description = "Lambda Function ARN to Stop and Start Non-ASG EC2 Instances"
   type        = string
 }

@@ -39,9 +39,3 @@ variable "aws_region" {
   type        = string
   default     = "ap-southeast-1"
 }
-
-variable "backup_vault_name" {
-  description = "Name of the Backup vault"
-  type        = string
-  default     = "Backup-vault"
-}
