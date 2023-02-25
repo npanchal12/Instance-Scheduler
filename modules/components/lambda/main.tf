@@ -75,6 +75,6 @@ module "lambda_function_start_stop_non_asg_ec2" {
   runtime        = "python3.9"
   create_package = false
 
-  local_existing_package = var.start_stop_rds_code
+  local_existing_package = var.start_stop_non_asg_ec2_code
 
 }
