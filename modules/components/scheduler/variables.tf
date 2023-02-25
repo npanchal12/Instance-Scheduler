@@ -4,15 +4,15 @@ variable "app_name" {
   default     = "instance-scheduler"
 }
 
-variable "lambda_function_stop_ec2_arn" {
-  description = "IAM Role"
-  type        = string
-}
+# variable "lambda_function_stop_ec2_arn" {
+#   description = "IAM Role"
+#   type        = string
+# }
 
-variable "lambda_function_start_ec2_arn" {
-  description = "IAM Role"
-  type        = string
-}
+# variable "lambda_function_start_ec2_arn" {
+#   description = "IAM Role"
+#   type        = string
+# }
 
 # variable "lambda_function_stop_rds_arn" {
 #   description = "IAM Role"
