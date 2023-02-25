@@ -32,10 +32,10 @@ def lambda_handler(event, context):
         if current_status != desired_status:
             if desired_status == 'running':
                 instance.start()
-                print(f"Started ec2 instances {instances}")
+                print(f"Started ec2 instances {instance_id}")
             elif desired_status == 'stopped':
                 instance.stop()
-                print(f"Stopped ec2 instances {instances}")
+                print(f"Stopped ec2 instances {instance_id}")
 
     return {
         'statusCode': 200,

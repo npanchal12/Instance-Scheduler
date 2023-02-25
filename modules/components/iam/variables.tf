@@ -4,7 +4,6 @@ variable "role_name" {
   default     = ""
 }
 
-
 variable "trusted_role_arns" {
   description = "ARNs of AWS entities who can assume these roles"
   type        = list(string)
