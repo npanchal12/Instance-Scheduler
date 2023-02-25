@@ -13,8 +13,8 @@ module "scheduler" {
   # lambda_function_start_rds_name = module.lambda_function.lambda_function_start_rds_name
   lambda_function_start_stop_rds_arn          = module.lambda_function.lambda_function_start_stop_rds_arn
   lambda_function_start_stop_rds_name         = module.lambda_function.lambda_function_start_stop_rds_name
-  lambda_function_start_stop_non_asg_ec2_arn  = module.lambda_function.lambda_function_start_stop_ec2_arn
-  lambda_function_start_stop_non_asg_ec2_name = module.lambda_function.lambda_function_start_stop_ec2_name
+  lambda_function_start_stop_non_asg_ec2_arn  = module.lambda_function.lambda_function_start_stop_non_asg_ec2_arn
+  lambda_function_start_stop_non_asg_ec2_name = module.lambda_function.lambda_function_start_stop_non_asg_ec2_name
 }
 
 module "lambda_function" {
