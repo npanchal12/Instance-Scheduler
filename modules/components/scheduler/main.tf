@@ -9,8 +9,12 @@ resource "aws_scheduler_schedule" "stop_ec2" {
   schedule_expression_timezone = "Asia/Singapore"
 
   target {
-    arn      = var.lambda_function_stop_ec2_arn
+    arn      = var.lambda_function_start_stop_non_asg_ec2_arn
     role_arn = module.instance_scheduler_role.iam_role_arn
+    input = jsonencode({
+      "body" : "{\"name\": \"non-asg-*\"}",
+      "status" : "stopped"
+    })
   }
 }
 
@@ -25,8 +29,12 @@ resource "aws_scheduler_schedule" "start_ec2" {
   schedule_expression_timezone = "Asia/Singapore"
 
   target {
-    arn      = var.lambda_function_start_ec2_arn
+    arn      = var.lambda_function_start_stop_non_asg_ec2_arn
     role_arn = module.instance_scheduler_role.iam_role_arn
+    input = jsonencode({
+      "body" : "{\"name\": \"non-asg-*\"}",
+      "status" : "running"
+    })
   }
 }
 
