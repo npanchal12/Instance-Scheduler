@@ -23,13 +23,6 @@ def lambda_handler(event, context):
         ]
     )
     
-     # Check if there are instances matching the filter
-    if len(list(instances)) == 0:
-        return {
-            'statusCode': 404,
-            'body': json.dumps('No instances found matching the provided name filter.')
-        }
-
     # Loop through instances and start or stop as necessary
     for instance in instances:
         instance_id = instance.id
