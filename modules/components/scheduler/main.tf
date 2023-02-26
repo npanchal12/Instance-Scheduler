@@ -5,27 +5,7 @@ resource "aws_scheduler_schedule" "stop_ec2" {
     mode = "OFF"
   }
 
-  schedule_expression          = "cron(35 18 ? * MON-SAT *)"
-  schedule_expression_timezone = "Asia/Singapore"
-
-  target {
-    arn      = var.lambda_function_start_stop_non_asg_ec2_arn
-    role_arn = module.instance_scheduler_role.iam_role_arn
-    input = jsonencode({
-      "body" : "{\"name\": \"non-asg-*\"}",
-      "status" : "stopped"
-    })
-  }
-}
-
-resource "aws_scheduler_schedule" "start_ec2" {
-  name = "start-non-asg-ec2-instances"
-
-  flexible_time_window {
-    mode = "OFF"
-  }
-
-  schedule_expression          = "cron(20 18 ? * MON-SAT *)"
+  schedule_expression          = "cron(25 10 ? * * *)"
   schedule_expression_timezone = "Asia/Singapore"
 
   target {
@@ -38,6 +18,26 @@ resource "aws_scheduler_schedule" "start_ec2" {
   }
 }
 
+resource "aws_scheduler_schedule" "start_ec2" {
+  name = "start-non-asg-ec2-instances"
+
+  flexible_time_window {
+    mode = "OFF"
+  }
+
+  schedule_expression          = "cron(20 18 ? * MON-FRI *)"
+  schedule_expression_timezone = "Asia/Singapore"
+
+  target {
+    arn      = var.lambda_function_start_stop_non_asg_ec2_arn
+    role_arn = module.instance_scheduler_role.iam_role_arn
+    input = jsonencode({
+      "body" : "{\"name\": \"non-asg-*\"}",
+      "status" : "stopped"
+    })
+  }
+}
+
 resource "aws_scheduler_schedule" "stop_rds" {
   name = "stop-non-prod-rds"
 
@@ -45,7 +45,7 @@ resource "aws_scheduler_schedule" "stop_rds" {
     mode = "OFF"
   }
 
-  schedule_expression          = "cron(35 18 ? * MON-SAT *)"
+  schedule_expression          = "cron(25 10 ? * * *)"
   schedule_expression_timezone = "Asia/Singapore"
 
   target {
@@ -65,7 +65,7 @@ resource "aws_scheduler_schedule" "start_rds" {
     mode = "OFF"
   }
 
-  schedule_expression          = "cron(20 18 ? * MON-SAT *)"
+  schedule_expression          = "cron(20 18 ? * MON-FRI *)"
   schedule_expression_timezone = "Asia/Singapore"
 
   target {
@@ -73,7 +73,7 @@ resource "aws_scheduler_schedule" "start_rds" {
     role_arn = module.instance_scheduler_role.iam_role_arn
 
     input = jsonencode({
-      "status" : "available"
+      "status" : "stopped"
     })
   }
 }
