@@ -16,12 +16,12 @@ def lambda_handler(event, context):
         cluster_status = cluster['Status']
 
         # If the cluster is in the desired status, stop or start it
-        if cluster_status == desired_status:
+        if cluster_status == 'available':
             response = rds_client.stop_db_cluster(
                 DBClusterIdentifier=cluster_name
             )
             print(f"Stopped cluster {cluster_name}")
-        elif cluster_status != desired_status:
+        elif cluster_status == 'stopped':
             response = rds_client.start_db_cluster(
                 DBClusterIdentifier=cluster_name
             )
