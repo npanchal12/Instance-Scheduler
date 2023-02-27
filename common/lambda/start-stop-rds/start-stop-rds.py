@@ -2,7 +2,7 @@ import boto3
 import json
 
 def lambda_handler(event, context):
-    # Extract the desired status from the input payload event
+    # Extract the filtered status from the input payload event
     payload = json.loads(event['body'])
     filtered_status = payload['status']
 
