@@ -21,14 +21,14 @@ def lambda_handler(event, context):
                 'Values': [
                     filtered_status
                 ]
-            },    
+            },
         ]
     )
-    
+
     # Initialize lists for successful and failed instances
     success = []
     failure = []
-    
+
     # Loop through instances and start or stop as necessary
     for instance in instances:
         instance_id = instance.id
@@ -46,17 +46,17 @@ def lambda_handler(event, context):
             except Exception as e:
                 failure.append(instance)
                 print(f"Failed to {filtered_status} instance {instance.id}: {e}")
-                
+
     # Print details of successful instances
     if success:
         ids = ", ".join([instance.id for instance in success])
         print(f"Instance IDs {ids} {filtered_status}: successful")
-    
+
     # Print details of failed instances
     if failure:
         ids = ", ".join([instance.id for instance in failure])
         print(f"Failed to {filtered_status} instances: {[instance.id for instance in failure]}")
-        
+
     return {
         'statusCode': 200,
         'body': json.dumps('All instances have been started or stopped as necessary.')
