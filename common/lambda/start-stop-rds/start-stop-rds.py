@@ -1,8 +1,10 @@
 import boto3
+import json
 
 def lambda_handler(event, context):
     # Extract the desired status from the input payload event
-    desired_status = event['status']
+    payload = json.loads(event['body'])
+    filtered_status = payload['status']
 
     # Create an connection using RDS client
     rds_client = boto3.client('rds')
@@ -15,7 +17,7 @@ def lambda_handler(event, context):
         cluster_name = cluster['DBClusterIdentifier']
         cluster_status = cluster['Status']
 
-        # If the cluster is in the desired status, stop or start it
+        # If the cluster is in the filtered status, stop or start it
         if cluster_status == 'available':
             response = rds_client.stop_db_cluster(
                 DBClusterIdentifier=cluster_name
@@ -32,5 +34,5 @@ def lambda_handler(event, context):
     # Return a success message
     return {
         'statusCode': 200,
-        'body': f"All RDS clusters in {desired_status} status have been stopped or started."
+        'body': f"All RDS clusters in {filtered_status} status have been stopped or started."
     }
