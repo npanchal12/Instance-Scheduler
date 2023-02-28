@@ -27,7 +27,7 @@ def lambda_handler(event, context):
 
     # Loop through instances and start or stop as necessary
     for instance in instances:
-        instance_id = instance.id
+        id = instance.id
 
         # Start or stop instance based on filtered status
         if filtered_status == 'stopped':
