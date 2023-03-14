@@ -12,8 +12,7 @@ resource "aws_scheduler_schedule" "stop_ec2" {
     arn      = var.lambda_function_start_stop_non_asg_ec2_arn
     role_arn = module.instance_scheduler_role.iam_role_arn
     input = jsonencode({
-      "body" : "{\"name\": \"non-asg-*\"}",
-      "status" : "running"
+      "body":"{\"status\": \"running\"}"
     })
   }
 }
@@ -32,8 +31,7 @@ resource "aws_scheduler_schedule" "start_ec2" {
     arn      = var.lambda_function_start_stop_non_asg_ec2_arn
     role_arn = module.instance_scheduler_role.iam_role_arn
     input = jsonencode({
-      "body" : "{\"name\": \"non-asg-*\"}",
-      "status" : "stopped"
+      "body":"{\"status\": \"stopped\"}"
     })
   }
 }
@@ -53,7 +51,7 @@ resource "aws_scheduler_schedule" "stop_rds" {
     role_arn = module.instance_scheduler_role.iam_role_arn
 
     input = jsonencode({
-      "status" : "available"
+      "body":"{\"status\": \"available\"}"
     })
   }
 }
@@ -73,7 +71,7 @@ resource "aws_scheduler_schedule" "start_rds" {
     role_arn = module.instance_scheduler_role.iam_role_arn
 
     input = jsonencode({
-      "status" : "stopped"
+      "body":"{\"status\": \"stopped\"}"
     })
   }
 }
