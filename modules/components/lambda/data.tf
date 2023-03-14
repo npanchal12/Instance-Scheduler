@@ -20,6 +20,7 @@ data "aws_iam_policy_document" "instance_scheduler_policy" {
       "rds:DescribeDBClusters",
       "rds:StartDBCluster",
       "rds:StopDBCluster",
+      "rds:ListTagsForResource",
     ]
     effect = "Allow"
     resources = [

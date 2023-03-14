@@ -9,7 +9,7 @@ def lambda_handler(event, context):
     # Get EC2 resource
     ec2 = boto3.resource('ec2')
 
-    # Get all instances matching the name filter
+    # Get all instances matching the name and tag filters
     instances = ec2.instances.filter(
         Filters=[
             {
@@ -22,6 +22,10 @@ def lambda_handler(event, context):
                     filtered_status
                 ]
             },
+            {
+                'Name': 'tag:sph:scheduler',
+                'Values': ['true']
+            }
         ]
     )
 
