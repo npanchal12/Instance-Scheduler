@@ -28,20 +28,8 @@ variable "standard_tags" {
   }
 }
 
-variable "map_migrated" {
-  description = "Map-migrated discount code"
-  type        = string
-  default     = "d-server-00fyc0pr7gc8hv"
-}
-
 variable "aws_region" {
   description = "Region used to deploy resources"
   type        = string
   default     = "ap-southeast-1"
-}
-
-variable "backup_vault_name" {
-  description = "Name of the Backup vault"
-  type        = string
-  default     = "Backup-vault"
 }

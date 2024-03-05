@@ -1,7 +1,6 @@
 variable "role_name" {
   description = "IAM role name"
   type        = string
-  default     = ""
 }
 
 variable "trusted_role_arns" {
@@ -20,12 +19,6 @@ variable "custom_role_policy_arns" {
   description = "List of ARNs of IAM policies to attach to IAM role"
   type        = list(string)
   default     = []
-}
-
-variable "tags" {
-  description = "A map of tags to add to IAM role resources"
-  type        = map(string)
-  default     = {}
 }
 
 variable "policy_name" {

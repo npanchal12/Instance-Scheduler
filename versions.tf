@@ -6,17 +6,14 @@ terraform {
       source  = "hashicorp/aws"
       version = ">= 4.45.0"
     }
-    random = {
-      source  = "hashicorp/random"
-      version = ">= 2.2"
-    }
   }
 
   cloud {
-    organization = "Jiya"
+    organization = "nimesh-org" # Replace the organization name with your own
+
     workspaces {
       # Fixed name
-      name = "Instance-Scheduler-dev"
+      name = "instance-scheduler-workspace" # Replace workspace name with your own
     }
   }
 }

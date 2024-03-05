@@ -9,8 +9,7 @@ module "iam_assumable_role" {
   create_role             = true
   create_instance_profile = false
   role_requires_mfa       = false
-
-  role_name = var.role_name
+  role_name               = var.role_name
 
   tags = { "Name" = var.role_name }
 }
